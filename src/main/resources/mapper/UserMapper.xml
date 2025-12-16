@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jwat.API_Mybatis.mapper.UserMapper">
+
+    <select id="findAll" resultType="User">
+        SELECT id, username, email, created_at
+        FROM users
+    </select>
+
+    <select id="findById" resultType="User">
+        SELECT id, username, email, created_at
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, email)
+        VALUES (#{username}, #{email})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE users
+        SET username = #{username},
+            email = #{email}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

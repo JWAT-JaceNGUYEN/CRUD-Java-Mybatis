@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: API-Mybatis
+
+  profiles:
+    active: mybatis
+
