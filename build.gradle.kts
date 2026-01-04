@@ -37,6 +37,8 @@ dependencies {
 	testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.5")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("commons-codec:commons-codec:1.16.0")
 }
 
 tasks.withType<Test> {

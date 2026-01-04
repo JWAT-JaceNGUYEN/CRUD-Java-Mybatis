@@ -16,9 +16,9 @@
         WHERE id = #{id}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (username, email)
-        VALUES (#{username}, #{email})
+    <insert id="insert" parameterType="com.jwat.API_Mybatis.model.request.UserCreateRequest">
+        INSERT INTO users (username, password, email)
+        VALUES (#{username}, #{password}, #{email})
     </insert>
 
     <delete id="deleteById">
@@ -31,5 +31,15 @@
             email = #{email}
         WHERE id = #{id}
     </update>
+
+    <select id="getUserByUsername" resultType="com.jwat.API_Mybatis.model.User">
+        SELECT
+                u.id,
+                u.username,
+                u.password
+        FROM users u
+        WHERE u.username = #{username}
+    </select>
+
 
 </mapper>

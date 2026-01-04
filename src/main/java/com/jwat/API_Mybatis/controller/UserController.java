@@ -1,6 +1,7 @@
 package com.jwat.API_Mybatis.controller;
 
 import com.jwat.API_Mybatis.model.User;
+import com.jwat.API_Mybatis.model.request.UserCreateRequest;
 import com.jwat.API_Mybatis.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
@@ -23,8 +24,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.create(user));
+    public ResponseEntity<Void> addUser(@RequestBody UserCreateRequest user) {
+        this.userService.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping()

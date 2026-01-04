@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,6 +12,7 @@ import java.time.LocalDateTime;
 public class User {
     private Long id;
     private String username;
+    private String password;
     private String email;
     private LocalDateTime createdAt;
 

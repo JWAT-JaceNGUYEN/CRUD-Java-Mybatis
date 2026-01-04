@@ -5,3 +5,5 @@ spring:
   profiles:
     active: mybatis
 
+  config:
+    import: optional:file:.env

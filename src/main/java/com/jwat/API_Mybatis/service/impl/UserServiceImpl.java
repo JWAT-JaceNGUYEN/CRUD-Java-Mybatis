@@ -3,7 +3,11 @@ package com.jwat.API_Mybatis.service.impl;
 import com.jwat.API_Mybatis.mapper.UserMapper;
 import com.jwat.API_Mybatis.service.UserService;
 import com.jwat.API_Mybatis.model.User;
+import com.jwat.API_Mybatis.model.request.UserCreateRequest;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +17,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAll() {
@@ -25,9 +30,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
-         userMapper.insert(user);
-        return user;
+    public void create(UserCreateRequest userCreateRequest) {
+        String hashedPass = passwordEncoder.encode(userCreateRequest.getPassword());
+        userCreateRequest.setPassword(hashedPass);
+        userMapper.insert(userCreateRequest);
     }
 
     @Override

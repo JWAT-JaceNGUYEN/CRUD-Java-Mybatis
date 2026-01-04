@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jwat.API_Mybatis.mapper.LoginMapper">
+
+  <!-- ===== LOGIN INFO ===== -->
+  <select id="getLoginInfoByUsername"
+          parameterType="string"
+          resultType="com.jwat.API_Mybatis.model.response.UserLoginResponse">
+    SELECT
+        u.user_id,
+        u.username
+    FROM users u
+    WHERE u.username = #{username}
+  </select>
+
+  <select id="getUserAuthByUsername"
+          parameterType="string"
+          resultType="com.jwat.API_Mybatis.model.response.UserAuthResponse">
+    SELECT
+        u.id       AS userId,
+        u.username AS username,
+        u.password AS userPassword
+    FROM users u
+    WHERE u.username = #{username}
+  </select>
+
+  <select id="getUserAuthByUserId"
+          parameterType="string"
+          resultType="com.jwat.API_Mybatis.model.response.UserAuthResponse">
+    SELECT
+        u.id       AS userId,
+        u.username AS username
+    FROM users u
+    WHERE u.id = #{userId}
+  </select>
+
+<insert id="insertRefreshToken" parameterType="com.jwat.API_Mybatis.model.request.RefreshTokenRequest">
+    INSERT INTO refresh_token (
+        token_id,
+        user_id,
+        refresh_token,
+        expiry_date,
+        created_at,
+        revoked
+    ) VALUES (
+        CAST(#{tokenId} AS uuid),
+        #{userId},
+        #{refreshToken},
+        #{expiryDate},
+        NOW(),
+        FALSE
+    )
+</insert>
+
+<select id="findValidToken" resultType="com.jwat.API_Mybatis.model.RefreshToken">
+  SELECT token_id, user_id, refresh_token, expiry_date, revoked
+  FROM refresh_token
+  WHERE user_id = #{userId}
+    AND refresh_token = #{refreshTokenHash}
+    AND revoked = FALSE
+    AND expiry_date > NOW()
+</select>
+
+  <update id="revokeToken">
+    UPDATE refresh_token
+    SET revoked = TRUE
+    WHERE token_id = #{tokenId}
+  </update>
+
+</mapper>
